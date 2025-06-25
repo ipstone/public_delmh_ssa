@@ -1,0 +1,33 @@
+# Output files
+output/*.tsv
+output/*.zip
+
+# Input data files (keep structure but not actual data)
+input/*.tsv
+input/*.csv
+input/*.maf*
+input/*.gz
+
+# R temporary files
+.Rhistory
+.RData
+.Ruserdata
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Temporary files
+*.tmp
+*.log
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Large reference files
+*.fasta
+*.fa
+*.fai
+*.dict
