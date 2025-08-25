@@ -73,5 +73,11 @@ snakemake -s smk/your_analysis.smk -c1
 ├── lib/         # Python analysis scripts
 ├── smk/         # Snakemake workflows  
 ├── input/       # Example deletion data
-└── output/      # Analysis results
+├── output/      # Analysis results
+├── R/           # Example R analysis scripts
+└── LICENSE      # MIT License
 ```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
