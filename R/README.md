@@ -1,36 +1,51 @@
 # R Analysis Scripts
 
-This folder contains higher level analysis code in R to understand the different definitions of deletion microhomology and homeology calculation, and their effects in different tumor genomic/mutation backgrounds such as BRCA1 and BRCA2 biallelic mutations vs controls.
+Example analysis scripts for DELMH-SSA pipeline results. Demonstrates visualization and statistical analysis of deletion microhomology patterns.
 
-## Key Files
+## Available Scripts
 
-### Library Functions
-- **`lib_calculate_delmh_metrics.R`**: Statistical metrics calculation functions
-- **`lib_load_breast560_delmh_ssa_sv_data.R`**: Load breast560 cohort dataset with SSA calculations
-- **`lib_load_breast560_clinical_sig_data.R`**: Load breast560 cohort clinical and signature data
-- **`lib_load_pcawg_tcga_ssa_data.R`**: Load PCAWG and TCGA datasets
+### Example Analysis Scripts
+- **`figures_breast560-dataset.R`**: Histogram analysis of deletion and microhomology length distributions
+- **`figures_BOPP.R`**: Boxplot comparison analysis for BRCA2 vs wild-type samples
 
-### Figure Generation Scripts
-- **`figures_breast560_*.R`**: Generate figures for breast560 cohort dataset analysis
-- **`figures_BOPP*.R`**: Generate figures for BOPP dataset analysis
+## Analysis Examples
 
-## Analysis Focus
+**figures_breast560-dataset.R** demonstrates:
+- Deletion length distribution histograms
+- Microhomology length analysis (≥5bp cutoff)
+- Basic summary statistics
+- Automated plot generation and data export
 
-The R scripts perform statistical comparisons and visualizations focusing on:
+**figures_BOPP.R** demonstrates:
+- Comparative analysis between sample groups
+- Statistical significance testing (Wilcoxon test)
+- Clinical annotation integration
+- Publication-ready boxplots
 
-1. **BRCA1/BRCA2 vs Control**: Deletion microhomology patterns in different genetic backgrounds
-2. **HRDetect Analysis**: Homologous recombination deficiency scoring
-3. **Deletion Length Distributions**: Analysis across different size categories
-4. **Homeology Frequency**: Statistical comparisons of SSA patterns
-
-## Usage
-
-Run analysis scripts from the R/ directory:
+## Quick Start
 
 ```bash
-# Calculate metrics
-Rscript lib_calculate_delmh_metrics.R
+# Run from repository root directory
+cd public_delmh_ssa
 
-# Generate figures
-Rscript figures_BOPP.R
+# Generate histogram analysis
+Rscript R/figures_breast560-dataset.R
+
+# Generate comparison plots  
+Rscript R/figures_BOPP.R
+```
+
+## Output
+
+Scripts generate:
+- PDF plots in `plots/` directory
+- TSV data files alongside plots
+- Console summary statistics
+
+## Requirements
+
+R packages: `data.table`, `dplyr`, `ggpubr`, `ggprism`
+
+```r
+install.packages(c("data.table", "dplyr", "ggpubr", "ggprism"))
 ```

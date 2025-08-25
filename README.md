@@ -1,105 +1,77 @@
-# Deletion Microhomology and Single-Strand Annealing (SSA) Analysis
+# DELMH-SSA: Deletion Microhomology Single-Strand Annealing Analysis
 
-This repository contains the computational pipeline for analyzing deletion microhomology and single-strand annealing (SSA) patterns in genomic data. We use the breast560 cohort dataset, PCAWG, and TCGA whole genome sequencing data to explore ways to calculate potential deletions from SSA.
+Analysis pipeline for detecting microhomology and single-strand annealing patterns in genomic deletions.
 
-## Algorithm
+## System Requirements
 
-- Go through the length of deletions, check if homology, keeping note of the homology length 
-- In the end, report the longest homology (length) along the deleted sequence, and the exact matching sequence
-- The constant `HOMOLOGY_CUTOFF = 0.8` determines the length of homeology to be reported
+**Software:**
+- Python 3.7+
+- pandas ≥1.3.0  
+- biopython ≥1.78
+- snakemake ≥6.0
+- conda/mamba
 
-## Key Features
+**Tested on:**
+- Ubuntu 18.04/20.04 LTS
+- CentOS 7/8
+- macOS 10.15+
 
-- **Traditional Microhomology**: Calculate perfect match microhomology at deletion breakpoints
-- **Homeology Detection**: Detect imperfect homology sequences with configurable similarity thresholds (default: 80%)
-- **Fine-tuned Algorithm**: Enhanced algorithm requiring terminal nucleotides to be ATGC (not gaps)
-- **Multiple Datasets**: Support for PCAWG, TCGA-WGS, and custom cancer genomics datasets
-- **Flexible Analysis**: Comprehensive R analysis pipeline for statistical comparisons
-
-## Repository Structure
-
-```
-├── lib/                    # Core calculation libraries
-│   ├── calc_delmh.py      # Traditional microhomology calculation
-│   ├── calc_delmh_ssa_breast560_finetune.py  # SSA/homeology calculation
-│   └── dataprep_*.R       # Data preparation scripts
-├── smk/                   # Snakemake workflow files
-│   ├── run_pcawg_delmh_ssa.smk
-│   └── run_TCGA-WGS_delmh_ssa.smk
-├── R/                     # R analysis and visualization scripts
-│   ├── lib_*.R           # Analysis utility functions
-│   └── figures_*.R       # Figure generation scripts
-├── input/                 # Input data files
-└── output/               # Analysis results (empty in public repo)
-```
+**Hardware:**
+- 8GB+ RAM recommended
 
 ## Installation
 
 ```bash
-# Create conda environment
-conda create -n delmh biopython pandas
+# Clone repository
+git clone https://github.com/ipstone/public_delmh_ssa.git
+cd public_delmh_ssa
+
+# Create conda environment  
+conda create -n delmh python=3.8 pandas biopython snakemake
 conda activate delmh
+
+# Download reference genome
+wget ftp://ftp.broadinstitute.org/bundle/2.3/human_g1k_v37.fasta.gz
+gunzip human_g1k_v37.fasta.gz
 ```
 
-## Configuration
+## Demo
 
-Before running the analysis, you need to update the following paths in the configuration files:
+Run example analysis on breast560 dataset (275 mutations, 6 samples):
 
-1. **Reference Genome**: Update `REF_FASTA` path in Snakemake files (`smk/*.smk`) to point to your reference genome FASTA file
-2. **Data Paths**: Update data paths in the R scripts and data preparation files to point to your datasets:
-   - PCAWG data: Update `pcawg_data_path` in `lib/dataprep_prepare_pcawg_deletion.R`
-   - TCGA data: Update `tcga_data_path` in `lib/dataprep_prepare_TCGA-WGS_deletion.R`
-   - Clinical data: Update paths in R analysis scripts as needed
+```bash
+# Update reference path in smk/run_breast560_delmh_ssa.smk if needed
+# Run analysis
+snakemake -s smk/run_breast560_delmh_ssa.smk -c1
+
+# View results
+head output/breast560_delmh_ssa_found_finetune.tsv
+```
 
 ## Usage
 
-### Running the Analysis Pipeline
+**Input format:** TSV with columns: `CHROM`, `POS`, `REF`, `ALT`, `SAMPLE_ID`, `NORMAL_ID`
 
-Use Snakemake workflows to run the analysis:
-
+**Run on your data:**
 ```bash
-# Run PCAWG analysis
-snakemake -s smk/run_pcawg_delmh_ssa.smk -c2
-
-# Run TCGA analysis
-snakemake -s smk/run_TCGA-WGS_delmh_ssa.smk -c2
-
-# Clean results for new runs
-snakemake -s smk/run_pcawg_delmh_ssa.smk -c1 -R clean
+# 1. Place deletion data in input/ directory
+# 2. Copy and modify smk/run_breast560_delmh_ssa.smk for your dataset
+# 3. Update REF_FASTA path
+# 4. Run pipeline
+snakemake -s smk/your_analysis.smk -c1
 ```
 
+**Key parameters:**
+- `HOMOLOGY_CUTOFF`: Similarity threshold (default: 0.8)
+- `REF_FASTA`: Reference genome path
 
-### R Analysis
+**Output:** TSV with microhomology metrics including sequence patterns, lengths, and coordinates.
 
-```bash
-# Run statistical analysis (from R/ directory)
-Rscript lib_calculate_delmh_metrics.R
-Rscript figures_breast560_01_s05_plot_grid-search_finetune_del-window_mh-cutoff.R
+## Files
+
 ```
-
-## Input Format
-
-Input files should be in TSV format. The pipeline handles two different deletion format conventions:
-
-1. **Breast560 cohort format**: Uses the last unchanged base as the position, listing the unchanged base in both REF and ALT
-2. **Standard format**: Uses the deleted base as the position, with deleted bases as REF and '-' as ALT
-
-## Output
-
-- **Primary Output**: `output/delmh_ssa_found.tsv`
-- **Fields**: `up_mh`, `down_mh` fields report the longest length of deleted sequence with homology at least the homology ratio (default 0.8)
-
-## Key Parameters
-
-- `HOMOLOGY_CUTOFF = 0.8`: Default homology ratio threshold for SSA calculation
-- `REF_FASTA`: Reference genome path (typically human_g1k_v37.fasta)
-
-## Datasets Supported
-
-- **Breast560 Cohort**: 560 breast cancer samples with indel/deletion data
-- **PCAWG**: Pan-Cancer Analysis of Whole Genomes
-- **TCGA-WGS**: The Cancer Genome Atlas Whole Genome Sequencing data
-
-## Contact
-
-For questions or issues, please open an issue on GitHub.
+├── lib/         # Python analysis scripts
+├── smk/         # Snakemake workflows  
+├── input/       # Example deletion data
+└── output/      # Analysis results
+```

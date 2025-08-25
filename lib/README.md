@@ -1,36 +1,56 @@
 # Library Code for Deletion Microhomology and SSA Calculation
 
-This folder contains the core 'library' code to calculate deletions with microhomology and homeology at the lower level. The generated data is used for higher level analysis later.
+Core Python analysis library for calculating deletion microhomology and single-strand annealing (SSA) patterns. These scripts process genomic deletion data to identify microhomology sequences.
 
-## Key Files
+## Available Scripts
 
-- **`calc_delmh.py`**: Traditional microhomology calculation with perfect matches
-- **`calc_delmh_ssa_breast560_finetune.py`**: Enhanced SSA/homeology calculation with configurable similarity thresholds
-- **`dataprep_*.R`**: Data preparation scripts for different datasets
+- **`calc_delmh_ssa_breast560_finetune.py`**: Main SSA/homeology calculation algorithm with configurable similarity thresholds (default: 80%)
 
-## Format Convention Differences
+## Algorithm Overview
 
-There is a convention difference between breast560 cohort table indels characterization calculations:
+The SSA calculation algorithm:
+1. Analyzes deletion sequences for homology patterns
+2. Reports longest homology matches along deleted sequences  
+3. Uses configurable similarity cutoff (default: 80% homology)
+4. Fine-tuned algorithm requires terminal nucleotides to be ATGC (not gaps)
 
-### Breast560 Cohort Format
-- Uses the last unchanged base as the position
-- Lists the unchanged base in both REF and ALT fields
+## Input Format
 
-### Standard Format (BRCA data EU etc.)
-- Uses the deleted base as the position
-- Uses the deleted base as the REF (and the bases after)
-- Uses '-' as the ALT to signal the deletion
-
-**Note**: These convention differences are handled in the code modifications. The original code has been modified to incorporate this one base difference.
+TSV file with required columns:
+- `CHROM`: Chromosome
+- `POS`: Position 
+- `REF`: Reference sequence
+- `ALT`: Alternate sequence
+- `SAMPLE_ID`: Sample identifier
+- `NORMAL_ID`: Normal sample identifier
 
 ## Usage
 
-The library files are typically called through the Snakemake workflows in the `smk/` directory, but can also be used directly:
-
+**Via Snakemake (recommended):**
 ```bash
-# Traditional microhomology calculation
-python lib/calc_delmh.py --ref-fasta <reference.fasta> -i <input.tsv> -o <output.tsv>
-
-# SSA/homeology calculation with fine-tuning
-python lib/calc_delmh_ssa_breast560_finetune.py --ref-fasta <reference.fasta> --homology-cutoff 0.8 -i <input.tsv> -o <output.tsv>
+snakemake -s smk/run_breast560_delmh_ssa.smk -c1
 ```
+
+**Direct usage:**
+```bash
+python lib/calc_delmh_ssa_breast560_finetune.py \
+  --ref-fasta human_g1k_v37.fasta \
+  --homology-cutoff 0.8 \
+  -i input/breast560_deletions_for_delmh.tsv \
+  -o output/breast560_delmh_ssa_found_finetune.tsv
+```
+
+## Output
+
+TSV file with microhomology metrics including:
+- Sequence patterns and lengths
+- Genomic coordinates  
+- Homology ratios and positions
+- Up/downstream microhomology annotations
+
+## Parameters
+
+- `--homology-cutoff`: Similarity threshold (default: 0.8)
+- `--ref-fasta`: Reference genome FASTA file path
+- `-i`: Input deletion file
+- `-o`: Output results file
