@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# This script is especially tailored for the Serena's deletion format where the deleted sequence is given as reference_genome_allele (or mutated_from_allele) and mutated to allele is noted as '-' 
+# This script is tailored for the breast560 cohort deletion format where the deleted sequence is given as reference_genome_allele (or mutated_from_allele) and mutated to allele is noted as '-' 
 # -- we are further fine tunning the definition so that the last nucleotide in
 # the matched sequence must be ATGC, not '-'
 

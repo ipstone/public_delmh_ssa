@@ -26,7 +26,7 @@ rule delmh_ssa:
     output:
         "output/TCGA-WGS_delmh_ssa_found_finetune.tsv"
     shell:
-        "python lib/calc_delmh_ssa_serena_finetune.py --ref-fasta {REF_FASTA} --homology-cutoff {HOMOLOGY_CUTOFF} -i {input} -o {output}"
+        "python lib/calc_delmh_ssa_breast560_finetune.py --ref-fasta {REF_FASTA} --homology-cutoff {HOMOLOGY_CUTOFF} -i {input} -o {output}"
 
 rule clean:
     shell:

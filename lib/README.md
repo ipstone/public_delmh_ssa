@@ -5,14 +5,14 @@ This folder contains the core 'library' code to calculate deletions with microho
 ## Key Files
 
 - **`calc_delmh.py`**: Traditional microhomology calculation with perfect matches
-- **`calc_delmh_ssa_serena_finetune.py`**: Enhanced SSA/homeology calculation with configurable similarity thresholds
+- **`calc_delmh_ssa_breast560_finetune.py`**: Enhanced SSA/homeology calculation with configurable similarity thresholds
 - **`dataprep_*.R`**: Data preparation scripts for different datasets
 
 ## Format Convention Differences
 
-There is a convention difference between Serena's table indels characterization calculations:
+There is a convention difference between breast560 cohort table indels characterization calculations:
 
-### Serena's Format
+### Breast560 Cohort Format
 - Uses the last unchanged base as the position
 - Lists the unchanged base in both REF and ALT fields
 
@@ -21,7 +21,7 @@ There is a convention difference between Serena's table indels characterization 
 - Uses the deleted base as the REF (and the bases after)
 - Uses '-' as the ALT to signal the deletion
 
-**Note**: These convention differences are handled in the code modifications. Serena's R code has been modified to incorporate this one base difference.
+**Note**: These convention differences are handled in the code modifications. The original code has been modified to incorporate this one base difference.
 
 ## Usage
 
@@ -32,5 +32,5 @@ The library files are typically called through the Snakemake workflows in the `s
 python lib/calc_delmh.py --ref-fasta <reference.fasta> -i <input.tsv> -o <output.tsv>
 
 # SSA/homeology calculation with fine-tuning
-python lib/calc_delmh_ssa_serena_finetune.py --ref-fasta <reference.fasta> --homology-cutoff 0.8 -i <input.tsv> -o <output.tsv>
+python lib/calc_delmh_ssa_breast560_finetune.py --ref-fasta <reference.fasta> --homology-cutoff 0.8 -i <input.tsv> -o <output.tsv>
 ```

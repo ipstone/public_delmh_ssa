@@ -11,7 +11,7 @@ When you run the analysis pipeline, the following files will be generated:
 - **`*_delmh_ssa_found_finetune.tsv`**: SSA/homeology calculation results with fine-tuning
 
 ### Dataset-Specific Files
-- **`serena_delmh_*.tsv`**: Results from Serena's 560 breast cancer dataset
+- **`breast560_delmh_*.tsv`**: Results from breast560 cohort (560 breast cancer samples)
 - **`pcawg_delmh_*.tsv`**: Results from PCAWG dataset analysis
 - **`TCGA-WGS_delmh_*.tsv`**: Results from TCGA whole genome sequencing data
 

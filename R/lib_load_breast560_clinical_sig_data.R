@@ -1,4 +1,4 @@
-# functions to load Serena/Davies' clinical data and siganture data
+# functions to load breast560 cohort clinical data and signature data (originally from Serena/Davies)
 
 library(data.table)
 library(magrittr)

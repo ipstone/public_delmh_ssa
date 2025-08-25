@@ -1,6 +1,6 @@
 # Deletion Microhomology and Single-Strand Annealing (SSA) Analysis
 
-This repository contains the computational pipeline for analyzing deletion microhomology and single-strand annealing (SSA) patterns in genomic data. We use Serena's 560 breast cancer dataset, PCAWG, and TCGA whole genome sequencing data to explore ways to calculate potential deletions from SSA.
+This repository contains the computational pipeline for analyzing deletion microhomology and single-strand annealing (SSA) patterns in genomic data. We use the breast560 cohort dataset, PCAWG, and TCGA whole genome sequencing data to explore ways to calculate potential deletions from SSA.
 
 ## Algorithm
 
@@ -21,7 +21,7 @@ This repository contains the computational pipeline for analyzing deletion micro
 ```
 ├── lib/                    # Core calculation libraries
 │   ├── calc_delmh.py      # Traditional microhomology calculation
-│   ├── calc_delmh_ssa_serena_finetune.py  # SSA/homeology calculation
+│   ├── calc_delmh_ssa_breast560_finetune.py  # SSA/homeology calculation
 │   └── dataprep_*.R       # Data preparation scripts
 ├── smk/                   # Snakemake workflow files
 │   ├── run_pcawg_delmh_ssa.smk
@@ -74,14 +74,14 @@ snakemake -s smk/run_pcawg_delmh_ssa.smk -c1 -R clean
 ```bash
 # Run statistical analysis (from R/ directory)
 Rscript lib_calculate_delmh_metrics.R
-Rscript figures_serena_01_s05_plot_grid-search_finetune_del-window_mh-cutoff.R
+Rscript figures_breast560_01_s05_plot_grid-search_finetune_del-window_mh-cutoff.R
 ```
 
 ## Input Format
 
 Input files should be in TSV format. The pipeline handles two different deletion format conventions:
 
-1. **Serena's format**: Uses the last unchanged base as the position, listing the unchanged base in both REF and ALT
+1. **Breast560 cohort format**: Uses the last unchanged base as the position, listing the unchanged base in both REF and ALT
 2. **Standard format**: Uses the deleted base as the position, with deleted bases as REF and '-' as ALT
 
 ## Output
@@ -96,7 +96,7 @@ Input files should be in TSV format. The pipeline handles two different deletion
 
 ## Datasets Supported
 
-- **Serena Dataset**: 560 breast cancer samples with indel/deletion data
+- **Breast560 Cohort**: 560 breast cancer samples with indel/deletion data
 - **PCAWG**: Pan-Cancer Analysis of Whole Genomes
 - **TCGA-WGS**: The Cancer Genome Atlas Whole Genome Sequencing data
 

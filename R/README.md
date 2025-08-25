@@ -6,12 +6,12 @@ This folder contains higher level analysis code in R to understand the different
 
 ### Library Functions
 - **`lib_calculate_delmh_metrics.R`**: Statistical metrics calculation functions
-- **`lib_load_serena_delmh_ssa_sv_data.R`**: Load Serena dataset with SSA calculations
-- **`lib_load_serena_clinical_sig_data.R`**: Load Serena clinical and signature data
+- **`lib_load_breast560_delmh_ssa_sv_data.R`**: Load breast560 cohort dataset with SSA calculations
+- **`lib_load_breast560_clinical_sig_data.R`**: Load breast560 cohort clinical and signature data
 - **`lib_load_pcawg_tcga_ssa_data.R`**: Load PCAWG and TCGA datasets
 
 ### Figure Generation Scripts
-- **`figures_serena_*.R`**: Generate figures for Serena dataset analysis
+- **`figures_breast560_*.R`**: Generate figures for breast560 cohort dataset analysis
 - **`figures_BOPP*.R`**: Generate figures for BOPP dataset analysis
 
 ## Analysis Focus
