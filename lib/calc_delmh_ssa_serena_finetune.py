@@ -47,7 +47,7 @@ def find_mh_1d(direction, seq, start_coord, end_coord, coord2pyidx = -1, HOMOLOG
     #     right_idx += step
 
     # Isaac new implementation of homology search for longest match
-    for i in range((abs(end_coord-start_coord)+1)):
+    for i in range((abs(end_coord-start_coord))):
         if seq[left_idx] == seq[right_idx]: # homology detected
             mh += seq[left_idx]
         else:
